@@ -93,7 +93,7 @@
     $.data(element, 'datepicker', this);
     this._process_options(options);
 
-    yearOffSet = (options.language === 'th-TH') ? 543 : 0;
+    yearOffSet = (options.language === 'th-TH' || options.language === 'th_TH') ? 543 : 0;
 
     this.dates = new DateArray();
     this.viewDate = this.o.defaultViewDate;
@@ -305,10 +305,9 @@
         o.defaultViewDate = DPGlobal.parseDate(o.defaultViewDate, format, o.language, o.assumeNearbyYear);
       } else if (o.defaultViewDate) {
         var year = o.defaultViewDate.year || new Date().getFullYear();
-        year = year - yearOffSet;
         var month = o.defaultViewDate.month || 0;
         var day = o.defaultViewDate.day || 1;
-        o.defaultViewDate = UTCDate(year, month, day);
+        o.defaultViewDate = UTCDate(year - yearOffSet, month, day);
       } else {
         o.defaultViewDate = UTCToday();
       }
@@ -900,16 +899,14 @@
 
     _fill_yearsView: function (selector, cssClass, factor, year, startYear, endYear, beforeFn) {
 
-      year = year + yearOffSet;
-
       var html = '';
       var step = factor / 10;
       var view = this.picker.find(selector);
-      var startVal = Math.floor(year / factor) * factor;
+      var startVal = Math.floor((year + yearOffSet) / factor) * factor;
       var endVal = startVal + step * 9;
-      var focusedVal = Math.floor(this.viewDate.getFullYear() / step) * step;
+      var focusedVal = Math.floor((this.viewDate.getFullYear() + yearOffSet) / step) * step;
       var selected = $.map(this.dates, function (d) {
-        return Math.floor(d.getUTCFullYear() / step) * step;
+        return Math.floor((d.getUTCFullYear() + yearOffSet) / step) * step;
       });
 
       var classes, tooltip, before;
@@ -925,8 +922,16 @@
         if ($.inArray(currVal, selected) !== -1) {
           classes.push('active');
         }
-        if (currVal < startYear || currVal > endYear) {
-          classes.push('disabled');
+
+        if (factor >= 100) {
+          // TODO: fix disable when select up to decade and century
+          if (currVal < startVal || currVal > endVal) {
+            classes.push('disabled');
+          }
+        } else {
+          if (currVal < (startYear + yearOffSet) || currVal > (endYear + yearOffSet)) {
+            classes.push('disabled');
+          }
         }
         if (currVal === focusedVal) {
           classes.push('focused');
@@ -1227,14 +1232,14 @@
             this.viewDate.setUTCMonth(month);
           } else {
             month = 0;
-            year = Number(target.text()) - yearOffSet;
-            this.viewDate.setUTCFullYear(year);
+            year = Number(target.text());
+            this.viewDate.setUTCFullYear(year - yearOffSet);
           }
 
           this._trigger(DPGlobal.viewModes[this.viewMode - 1].e, this.viewDate);
 
           if (this.viewMode === this.o.minViewMode) {
-            this._setDate(UTCDate(year, month, day));
+            this._setDate(UTCDate(year - yearOffSet, month, day));
           } else {
             this.setViewMode(this.viewMode - 1);
             this.fill();
@@ -1840,8 +1845,7 @@
         setters_order = ['yyyy', 'yy', 'M', 'MM', 'm', 'mm', 'd', 'dd'],
         setters_map = {
           yyyy: function (d, v) {
-            v = v - yearOffSet;
-            return d.setUTCFullYear(assumeNearby ? applyNearbyYear(v, assumeNearby) : v);
+            return d.setUTCFullYear(assumeNearby ? applyNearbyYear(v - yearOffSet, assumeNearby) : v - yearOffSet);
           },
           m: function (d, v) {
             if (isNaN(d))
