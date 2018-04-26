@@ -1,9 +1,9 @@
 {
   "name": "bootstrap-datepicker-year-offset",
-  "version": "1.0.6",
+  "version": "1.0.4",
   "description": "Modified version of bootstrap-datepicker (Buddhist Era calendar support)",
   "scripts": {
-    "build": "rm -rf dist && mkdir -p dist/js && cp ./js/*.js dist/js && cp ./package.json dist/package.json"
+    "build": "rm -rf dist && mkdir -p dist/js && cp ./js/*.js dist/js"
   },
   "author": "tumit",
   "license": "ISC",

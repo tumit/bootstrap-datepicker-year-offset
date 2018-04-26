@@ -3,6 +3,9 @@ This is a modified version of bootstrap-datepicker (Buddhist Era calendar suppor
 
 First intention of this project is just make possibility to install this script by `npm install bootstrap-datepicker-year-offset --save` in Angular CLI project.
 
+## How to publish
+- `npm publish .`
+
 ## Usage (in Angular CLI project)
 - `npm install bootstrap-datepicker-year-offset --save`
 - include this script in `.angular-cli.json`
