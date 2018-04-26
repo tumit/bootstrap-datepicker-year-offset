@@ -3,7 +3,7 @@
   "version": "1.0.5",
   "description": "Modified version of bootstrap-datepicker (Buddhist Era calendar support)",
   "scripts": {
-    "build": "rm -rf dist && mkdir -p dist/js && cp ./js/*.js dist/js"
+    "build": "rm -rf dist && mkdir -p dist/js && cp ./js/*.js dist/js && cp ./package.json dist/package.json"
   },
   "author": "tumit",
   "license": "ISC",
