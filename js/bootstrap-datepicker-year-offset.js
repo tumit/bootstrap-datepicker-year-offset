@@ -1845,7 +1845,7 @@
         setters_order = ['yyyy', 'yy', 'M', 'MM', 'm', 'mm', 'd', 'dd'],
         setters_map = {
           yyyy: function (d, v) {
-            return d.setUTCFullYear(assumeNearby ? applyNearbyYear(v - yearOffSet, assumeNearby) : v - yearOffSet);
+            return d.setUTCFullYear(assumeNearby ? applyNearbyYear(v, assumeNearby) : v);
           },
           m: function (d, v) {
             if (isNaN(d))
@@ -1941,24 +1941,24 @@
       return date.join('');
     },
     headTemplate: '<thead>' +
-    '<tr>' +
-    '<th colspan="7" class="datepicker-title"></th>' +
-    '</tr>' +
-    '<tr>' +
-    '<th class="prev">&laquo;</th>' +
-    '<th colspan="5" class="datepicker-switch"></th>' +
-    '<th class="next">&raquo;</th>' +
-    '</tr>' +
-    '</thead>',
+      '<tr>' +
+      '<th colspan="7" class="datepicker-title"></th>' +
+      '</tr>' +
+      '<tr>' +
+      '<th class="prev">&laquo;</th>' +
+      '<th colspan="5" class="datepicker-switch"></th>' +
+      '<th class="next">&raquo;</th>' +
+      '</tr>' +
+      '</thead>',
     contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
     footTemplate: '<tfoot>' +
-    '<tr>' +
-    '<th colspan="7" class="today"></th>' +
-    '</tr>' +
-    '<tr>' +
-    '<th colspan="7" class="clear"></th>' +
-    '</tr>' +
-    '</tfoot>'
+      '<tr>' +
+      '<th colspan="7" class="today"></th>' +
+      '</tr>' +
+      '<tr>' +
+      '<th colspan="7" class="clear"></th>' +
+      '</tr>' +
+      '</tfoot>'
   };
   DPGlobal.template = '<div class="datepicker">' +
     '<div class="datepicker-days">' +
